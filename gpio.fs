@@ -1,8 +1,13 @@
 \ Words for managing GPIO pins
 
 \ User bank IO registers
-$40014000 constant IO_BANK0_BASE
-$00000004 constant GPIO_CTRL
+$40014000       constant IO_BANK0_BASE
+$00000004       constant GPIO_CTRL
+$d0000000       constant SIO_BASE
+SIO_BASE $020 + constant GPIO_OE
+SIO_BASE $024 + constant GPIO_OE_SET
+SIO_BASE $028 + constant GPIO_OE_CLR
+SIO_BASE $02c + constant GPIO_OE_XOR
 
 \ GPIO pin functions
 1 constant SPI0
@@ -28,3 +33,12 @@ $00000004 constant GPIO_CTRL
 
 \ Display a list of all gpio pins and their current function
 : pins ( -- ) cr 30 0 DO I dup u. pin funcsel u. cr LOOP ;
+
+\ Enable/disable pin for GPIO output
+\ example: 13 output-enable
+\ example: 13 output-disable
+: output-enable ( n -- ) 1 swap lshift GPIO_OE_SET ! ;
+: output-disable ( n -- ) 1 swap lshift GPIO_OE_CLR ! ;
+
+\ Check if pin has GPIO output enabled
+: output-enabled? ( n -- flag ) 1 swap lshift GPIO_OE @ and 0 > ;
