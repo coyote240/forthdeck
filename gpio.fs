@@ -25,11 +25,11 @@ SIO_BASE $02c + constant GPIO_OE_XOR
 
 \ Given a pin address, leave its selected function value on the stack
 \ example: 13 pin funcsel
-: funcsel ( addr -- n ) GPIO_CTRL + @ ;
+: funcsel@ ( addr -- n ) GPIO_CTRL + @ ;
 
 \ Given a pin address, set its function
 \ example: 13 pin SIO funcset
-: funcset ( addr n -- ) swap GPIO_CTRL + ! ;
+: funcsel! ( addr n -- ) swap GPIO_CTRL + ! ;
 
 \ Display a list of all gpio pins and their current function
 : pins ( -- ) cr 30 0 DO I dup u. pin funcsel u. cr LOOP ;
