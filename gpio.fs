@@ -69,7 +69,8 @@ SIO_BASE $02c + constant GPIO_OE_XOR
     output? IF ." High" ELSE ." Low" THEN
   cr LOOP ;
 
-\ TODO I haven't read much about reading inputs yet, this will require fleshing out.
+\ TODO I haven't read much about reading inputs yet;
+\ this will require fleshing out.
 : input@ ( n -- ? ) 1 swap lshift GPIO_IN @ ;
 
 : inputs. ( -- )
