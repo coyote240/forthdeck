@@ -31,4 +31,32 @@ lexicon VARIABLE lex-ptr
     WORDSIZE lex-ptr +!
   REPEAT ;
 
-: wordle ( -- ) ;
+: advance ( -- ) WORDSIZE lex-ptr +! ;
+
+: store ( size addr -- ) lex-ptr @ SWAP MOVE advance ;
+
+: fake-lexicon ( addr -- )
+  s" women" store
+  s" nikau" store
+  s" swack" store
+  s" feens" store ;
+
+: word. ( index -- ) WORDSIZE * lexicon + WORDSIZE TYPE ;
+: word@ ( index -- addr ) WORDSIZE * lexicon + ;
+: randword. ( -- addr ) 2 random word. ;
+: randword@ ( -- addr ) 2 random word@ ;
+
+: check-word ( input target -- )
+  WORDSIZE 0 DO
+    I + C@ <# # #> type
+  LOOP ;
+
+0 VARIABLE target
+
+: wordle ( -- )
+  randword@ target !  \ Get random word
+  6 0 DO
+    \ Accept user input
+    \ Show matching letters
+  LOOP
+  ;
